@@ -23,6 +23,9 @@ $ pip install -r requirements.txt
 ### Dataset
 Our experiments are performed on the logical access (LA) partition of the ASVspoof 2021 dataset (train on 2019 LA training and evaluate on 2021 LA evaluation database).
 
+## Pre-trained wav2vec 2.0 XLSR (300M)
+Download the XLSR models from here: https://github.com/pytorch/fairseq/tree/main/examples/wav2vec/xlsr
+
 ### Training LA and DF
 To train the model run:
 ```
