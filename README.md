@@ -26,12 +26,12 @@ Our experiments are performed on the logical access (LA) partition of the ASVspo
 ## Pre-trained wav2vec 2.0 XLSR (300M)
 Download the XLSR models from here: https://github.com/pytorch/fairseq/tree/main/examples/wav2vec/xlsr
 
-### Training LA and DF
+### Training LA
 To train the model run:
 ```
 CUDA_VISIBLE_DEVICES=0 main_SSL_LA.py --track=LA   --track=LA --lr=0.000001 --batch_size=14 --loss=WCE  
 ```
-### Testing
+### Testing LA and DF
 
 To evaluate your own model on LA and DF evaluation dataset:
 ```
