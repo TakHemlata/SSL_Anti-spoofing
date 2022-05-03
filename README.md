@@ -7,7 +7,8 @@ This repository contains our implementation of the paper published in the Speake
 
 ## Installation
 First, clone the repository locally, create and activate a conda environment, and install the requirements :
-```$ git clone https://github.com/TakHemlata/SSL_Anti-spoofing.git
+```
+$ git clone https://github.com/TakHemlata/SSL_Anti-spoofing.git
 $ conda create -n SSL_Spoofing python=3.7
 $ conda activate SSL_Spoofing
 $ pip install torch==1.8.1+cu111 torchvision==0.9.1+cu111 torchaudio==0.8.1 -f https://download.pytorch.org/whl/torch_stable.html
