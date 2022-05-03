@@ -32,7 +32,7 @@ LA [here](https://zenodo.org/record/4837263#.YnDIinYzZhE)
 DF [here](https://zenodo.org/record/4835108#.YnDIb3YzZhE)
 
 ## Pre-trained wav2vec 2.0 XLSR (300M)
-Download the XLSR models from [here].(https://github.com/pytorch/fairseq/tree/main/examples/wav2vec/xlsr)
+Download the XLSR models from [here](https://github.com/pytorch/fairseq/tree/main/examples/wav2vec/xlsr)
 
 ### Training LA
 To train the model run:
