@@ -161,7 +161,7 @@ if __name__ == '__main__':
 
     ##===================================================Rawboost data augmentation ======================================================================#
 
-    parser.add_argument('--algo', type=int, default=0, 
+    parser.add_argument('--algo', type=int, default=5, 
                     help='Rawboost algos discriptions. 0: No augmentation 1: LnL_convolutive_noise, 2: ISD_additive_noise, 3: SSI_additive_noise, 4: series algo (1+2+3), \
                           5: series algo (1+2), 6: series algo (1+3), 7: series algo(2+3), 8: parallel algo(1,2) .[default=0]')
 
