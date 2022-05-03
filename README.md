@@ -23,14 +23,16 @@ $ pip install -r requirements.txt
 ### Dataset
 Our experiments are performed on the logical access (LA) and deepfake (DF) partition of the ASVspoof 2021 dataset (train on 2019 LA training and evaluate on 2021 LA and DF evaluation database).
 
+The ASVspoof 2019 dataset, which can can be downloaded from [here](https://datashare.is.ed.ac.uk/handle/10283/3336).
+
 The ASVspoof 2021 database is released on the zenodo site.
 
-LA [link here](https://zenodo.org/record/4837263#.YnDIinYzZhE)
+LA [here](https://zenodo.org/record/4837263#.YnDIinYzZhE)
 
-DF [link here](https://zenodo.org/record/4835108#.YnDIb3YzZhE)
+DF [here](https://zenodo.org/record/4835108#.YnDIb3YzZhE)
 
 ## Pre-trained wav2vec 2.0 XLSR (300M)
-Download the XLSR models from here: https://github.com/pytorch/fairseq/tree/main/examples/wav2vec/xlsr
+Download the XLSR models from [here].(https://github.com/pytorch/fairseq/tree/main/examples/wav2vec/xlsr)
 
 ### Training LA
 To train the model run:
