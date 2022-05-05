@@ -52,7 +52,8 @@ CUDA_VISIBLE_DEVICES=0 python main_SSL_DF.py --track=DF --is_eval --eval --model
 ```
 
 We also provide a pre-trained models. To use it you can run: 
-(Pre-trained models are not provided in this repo because of larger size. We will share the link for pre-trained models soon. )
+Pre-trained SSL antispoofing models are available [here](https://drive.google.com/drive/folders/1c4ywztEVlYVijfwbGLl9OEa1SNtFKppB?usp=sharing)
+
 ```
 CUDA_VISIBLE_DEVICES=0 python main_SSL_LA.py --track=LA --is_eval --eval --model_path='/path/to/Pre_trained_models/best_SSL_model_LA.pth' --eval_output='eval_pre_trained_model_CM_scores_file_SSL_LA.txt'
 ```
