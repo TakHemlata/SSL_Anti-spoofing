@@ -71,10 +71,10 @@ For any query regarding this repository, please contact:
 ## Citation
 If you use this code in your research please use the following citation:
 ```bibtex
-@article{tak2022automatic,
+@inproceedings{tak2022automatic,
   title={Automatic speaker verification spoofing and deepfake detection using wav2vec 2.0 and data augmentation},
   author={Tak, Hemlata and Todisco, Massimiliano and Wang, Xin and Jung, Jee-weon and Yamagishi, Junichi and Evans, Nicholas},
-  journal={arXiv preprint arXiv:2202.12233},
+  booktitle={The Speaker and Language Recognition Workshop (To appear)},
   year={2022}
 }
 ```
