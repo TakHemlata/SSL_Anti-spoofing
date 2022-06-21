@@ -412,7 +412,7 @@ class Residual_block(nn.Module):
             out = x
 
         #print('out',out.shape)
-        out = self.conv1(out)
+        out = self.conv1(x)
 
         #print('aft conv1 out',out.shape)
         out = self.bn2(out)
@@ -453,7 +453,7 @@ class Model(nn.Module):
         self.selu = nn.SELU(inplace=True)
 
         self.encoder = nn.Sequential(
-            nn.Sequential(Residual_block(nb_filts=filts[1], first=False)),
+            nn.Sequential(Residual_block(nb_filts=filts[1], first=True)),
             nn.Sequential(Residual_block(nb_filts=filts[2])),
             nn.Sequential(Residual_block(nb_filts=filts[3])),
             nn.Sequential(Residual_block(nb_filts=filts[4])),
