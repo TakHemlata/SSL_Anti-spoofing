@@ -74,7 +74,7 @@ If you use this code in your research please use the following citation:
 @inproceedings{tak2022automatic,
   title={Automatic speaker verification spoofing and deepfake detection using wav2vec 2.0 and data augmentation},
   author={Tak, Hemlata and Todisco, Massimiliano and Wang, Xin and Jung, Jee-weon and Yamagishi, Junichi and Evans, Nicholas},
-  booktitle={The Speaker and Language Recognition Workshop (To appear)},
+  booktitle={The Speaker and Language Recognition Workshop},
   year={2022}
 }
 ```
