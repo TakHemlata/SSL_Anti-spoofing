@@ -32,7 +32,7 @@ LA [here](https://zenodo.org/record/4837263#.YnDIinYzZhE)
 
 DF [here](https://zenodo.org/record/4835108#.YnDIb3YzZhE)
 
-For ASVspoof 2021 dataset keys (labels) and metadata are available [here](https://www.asvspoof.org/)
+For ASVspoof 2021 dataset keys (labels) and metadata are available [here](https://www.asvspoof.org/index2021.html)
 
 ## Pre-trained wav2vec 2.0 XLSR (300M)
 Download the XLSR models from [here](https://github.com/pytorch/fairseq/tree/main/examples/wav2vec/xlsr)
