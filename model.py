@@ -21,7 +21,7 @@ class SSLModel(nn.Module):
     def __init__(self,device):
         super(SSLModel, self).__init__()
         
-        cp_path = 'xlsr2_300m.pt'   # change the pre-trained XLSR model path as per your directoy 
+        cp_path = 'xlsr2_300m.pt'   # Change the pre-trained XLSR model path. 
         model, cfg, task = fairseq.checkpoint_utils.load_model_ensemble_and_task([cp_path])
         self.model = model[0]
         self.device=device
@@ -500,16 +500,13 @@ class Model(nn.Module):
         
         self.out_layer = nn.Linear(5 * gat_dims[1], 2)
 
-    def forward(self, x, Freq_aug=False):
+    def forward(self, x):
         #-------pre-trained Wav2vec model fine tunning ------------------------##
         x_ssl_feat = self.ssl_model.extract_feat(x.squeeze(-1))
         x=self.LL(x_ssl_feat) #(bs,frame_number,feat_out_dim)
         
 
-        #-------pre-trained Wav2vec model fine tunning ------------------------##
-
         x= x.transpose(1, 2)   #(bs,feat_out_dim,frame_number)
-
         x = x.unsqueeze(dim=1) # add channel 
         x = F.max_pool2d(x, (3, 3))
         x = self.first_bn(x)
