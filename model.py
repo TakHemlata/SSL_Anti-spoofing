@@ -21,7 +21,7 @@ class SSLModel(nn.Module):
     def __init__(self,device):
         super(SSLModel, self).__init__()
         
-        cp_path = '/medias/speech/projects/tak/our_staging/LA/Baseline-RawNet2/pre-trained_model_SSL/models/XLR_300M/xlsr2_300m.pt'   # change the pre-trained XLSR model path as per your directoy 
+        cp_path = 'xlsr2_300m.pt'   # change the pre-trained XLSR model path as per your directoy 
         model, cfg, task = fairseq.checkpoint_utils.load_model_ensemble_and_task([cp_path])
         self.model = model[0]
         self.device=device
