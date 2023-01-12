@@ -401,7 +401,7 @@ class Residual_block(nn.Module):
 
         else:
             self.downsample = False
-        #self.mp = nn.MaxPool2d((1, 2))  # self.mp = nn.MaxPool2d((1,4))
+        
 
     def forward(self, x):
         identity = x
@@ -431,11 +431,11 @@ class Residual_block(nn.Module):
 class Model(nn.Module):
     def __init__(self, args,device):
         super().__init__()
-        self.device=device
+        self.device = device
         
         
-        filts =[128, [1, 32], [32, 32], [32, 64], [64, 64]]
-        gat_dims =[64, 32]
+        filts = [128, [1, 32], [32, 32], [32, 64], [64, 64]]
+        gat_dims = [64, 32]
         pool_ratios = [0.5, 0.5, 0.5, 0.5]
         temperatures =  [2.0, 2.0, 100.0, 100.0]
 
@@ -503,10 +503,10 @@ class Model(nn.Module):
     def forward(self, x):
         #-------pre-trained Wav2vec model fine tunning ------------------------##
         x_ssl_feat = self.ssl_model.extract_feat(x.squeeze(-1))
-        x=self.LL(x_ssl_feat) #(bs,frame_number,feat_out_dim)
+        x = self.LL(x_ssl_feat) #(bs,frame_number,feat_out_dim)
         
 
-        x= x.transpose(1, 2)   #(bs,feat_out_dim,frame_number)
+        x = x.transpose(1, 2)   #(bs,feat_out_dim,frame_number)
         x = x.unsqueeze(dim=1) # add channel 
         x = F.max_pool2d(x, (3, 3))
         x = self.first_bn(x)
@@ -517,10 +517,10 @@ class Model(nn.Module):
 
         x = self.first_bn1(x)
         x = self.selu(x)
-        w=self.attention(x)
+        w = self.attention(x)
         
         #------------SAP for spectral feature-------------#
-        w1=F.softmax(w,dim=-1)
+        w1 = F.softmax(w,dim=-1)
         m = torch.sum(x * w1, dim=-1)
         
         e_S = m.transpose(1, 2) + self.pos_S 
@@ -533,7 +533,7 @@ class Model(nn.Module):
 
         
         #------------SAP for temporal feature-------------#
-        w2=F.softmax(w,dim=-2)
+        w2 = F.softmax(w,dim=-2)
         m1 = torch.sum(x * w2, dim=-2)
      
         e_T = m1.transpose(1, 2)
