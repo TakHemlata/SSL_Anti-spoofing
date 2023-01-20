@@ -1,6 +1,6 @@
 Automatic speaker verification spoofing and deepfake detection using wav2vec 2.0 and data augmentation
 ===============
-This repository contains our implementation of the paper published in the Speaker Odyssey 2022 workshop, "Automatic speaker verification spoofing and deepfake detection using wav2vec 2.0 and data augmentation". 
+This repository contains our implementation of the paper published in the Speaker Odyssey 2022 workshop, "Automatic speaker verification spoofing and deepfake detection using wav2vec 2.0 and data augmentation". This work produced state-of-the-art result on more challenging ASVspoof 2021 LA and DF database.
 
 [Paper link here](https://arxiv.org/abs/2202.12233)
 
@@ -53,7 +53,9 @@ CUDA_VISIBLE_DEVICES=0 python main_SSL_DF.py --track=DF --is_eval --eval --model
 
 We also provide a pre-trained models. To use it you can run: 
 
-Pre-trained SSL antispoofing models are available [here](https://drive.google.com/drive/folders/1c4ywztEVlYVijfwbGLl9OEa1SNtFKppB?usp=sharing)
+Pre-trained SSL antispoofing models are available for LA and DF [here](https://drive.google.com/drive/folders/1c4ywztEVlYVijfwbGLl9OEa1SNtFKppB?usp=sharing)
+It shows EER: 0.82%, min t-DCF: 0.2066  for LA
+EER: 2.85 % for DF
 
 ```
 CUDA_VISIBLE_DEVICES=0 python main_SSL_LA.py --track=LA --is_eval --eval --model_path='/path/to/Pre_trained_models/best_SSL_model_LA.pth' --eval_output='eval_pre_trained_model_CM_scores_file_SSL_LA.txt'
@@ -71,6 +73,7 @@ For any query regarding this repository, please contact:
 ## Citation
 If you use this code in your research please use the following citation:
 ```bibtex
+
 @inproceedings{tak2022automatic,
   title={Automatic speaker verification spoofing and deepfake detection using wav2vec 2.0 and data augmentation},
   author={Tak, Hemlata and Todisco, Massimiliano and Wang, Xin and Jung, Jee-weon and Yamagishi, Junichi and Evans, Nicholas},
