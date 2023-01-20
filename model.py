@@ -7,6 +7,7 @@ import torch.nn as nn
 import torch.nn.functional as F
 from torch import Tensor
 import fairseq
+from omegaconf import OmegaConf, _utils
 
 
 ___author__ = "Hemlata Tak"
@@ -15,6 +16,48 @@ __email__ = "tak@eurecom.fr"
 ############################
 ## FOR fine-tuned SSL MODEL
 ############################
+
+
+class SSLModelRandom(nn.Module):
+    """
+    This class initializes wav2vec2 model without using pretrained-checkpoint. It only uses
+    required configuration file.
+    1- No need to download 3.7 GB xlsr(300m) checkpoint just to initialize the model.
+    2- Even when we need further training, pretrained models for LA and DF tasks will likely be
+    better initialization checkpoints than original xlsr.
+    """
+    def __init__(self, cfg_path="config/xlsr2_300m_config_only.pt"):
+        super(SSLModelRandom, self).__init__()
+        # state = load_checkpoint_to_cpu(cfg_path)
+        state = torch.load(cfg_path)
+        old_primitive = _utils.is_primitive_type
+        _utils.is_primitive_type = lambda _: True
+        state["cfg"] = OmegaConf.create(state["cfg"])
+        _utils.is_primitive_type = old_primitive
+        OmegaConf.set_struct(state["cfg"], True)
+        cfg = state["cfg"]
+        task = fairseq.tasks.setup_task(cfg.task, from_checkpoint=True)
+        task.load_state_dict(state["task_state"])
+        self.model = task.build_model(cfg.model)
+
+        self.out_dim = 1024
+        
+    def extract_feat(self, input_data):
+        # put the model to GPU if it not there
+        if next(self.model.parameters()).device != input_data.device \
+           or next(self.model.parameters()).dtype != input_data.dtype:
+            self.model.to(input_data.device, dtype=input_data.dtype)
+        
+        if True:
+            # input should be in shape (batch, length)
+            if input_data.ndim == 3:
+                input_tmp = input_data[:, :, 0]
+            else:
+                input_tmp = input_data
+                
+            # [batch, length, dim]
+            emb = self.model(input_tmp, mask=False, features_only=True)['x']
+        return emb
 
 
 class SSLModel(nn.Module):
