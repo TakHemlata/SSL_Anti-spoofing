@@ -420,6 +420,7 @@ class Residual_block(nn.Module):
         # print('out',out.shape)
         out = self.conv2(out)
         #print('conv2 out',out.shape)
+        
         if self.downsample:
             identity = self.conv_downsample(identity)
 
@@ -433,7 +434,7 @@ class Model(nn.Module):
         super().__init__()
         self.device = device
         
-        
+        # AASIST parameters
         filts = [128, [1, 32], [32, 32], [32, 64], [64, 64]]
         gat_dims = [64, 32]
         pool_ratios = [0.5, 0.5, 0.5, 0.5]
@@ -452,6 +453,7 @@ class Model(nn.Module):
         self.drop_way = nn.Dropout(0.2, inplace=True)
         self.selu = nn.SELU(inplace=True)
 
+        # RawNet2 encoder
         self.encoder = nn.Sequential(
             nn.Sequential(Residual_block(nb_filts=filts[1], first=True)),
             nn.Sequential(Residual_block(nb_filts=filts[2])),
@@ -467,29 +469,30 @@ class Model(nn.Module):
             nn.Conv2d(128, 64, kernel_size=(1,1)),
             
         )
-        
-
+        # position encoding
         self.pos_S = nn.Parameter(torch.randn(1, 42, filts[-1][-1]))
+        
         self.master1 = nn.Parameter(torch.randn(1, 1, gat_dims[0]))
         self.master2 = nn.Parameter(torch.randn(1, 1, gat_dims[0]))
-
+        
+        # Graph module
         self.GAT_layer_S = GraphAttentionLayer(filts[-1][-1],
                                                gat_dims[0],
                                                temperature=temperatures[0])
         self.GAT_layer_T = GraphAttentionLayer(filts[-1][-1],
                                                gat_dims[0],
                                                temperature=temperatures[1])
+        # HS-GAL layer 
         self.HtrgGAT_layer_ST11 = HtrgGraphAttentionLayer(
             gat_dims[0], gat_dims[1], temperature=temperatures[2])
         self.HtrgGAT_layer_ST12 = HtrgGraphAttentionLayer(
             gat_dims[1], gat_dims[1], temperature=temperatures[2])
-
         self.HtrgGAT_layer_ST21 = HtrgGraphAttentionLayer(
             gat_dims[0], gat_dims[1], temperature=temperatures[2])
-
         self.HtrgGAT_layer_ST22 = HtrgGraphAttentionLayer(
             gat_dims[1], gat_dims[1], temperature=temperatures[2])
 
+        # Graph pooling layers
         self.pool_S = GraphPool(pool_ratios[0], gat_dims[0], 0.3)
         self.pool_T = GraphPool(pool_ratios[1], gat_dims[0], 0.3)
         self.pool_hS1 = GraphPool(pool_ratios[2], gat_dims[1], 0.3)
@@ -505,7 +508,7 @@ class Model(nn.Module):
         x_ssl_feat = self.ssl_model.extract_feat(x.squeeze(-1))
         x = self.LL(x_ssl_feat) #(bs,frame_number,feat_out_dim)
         
-
+        # post-processing on front-end features
         x = x.transpose(1, 2)   #(bs,feat_out_dim,frame_number)
         x = x.unsqueeze(dim=1) # add channel 
         x = F.max_pool2d(x, (3, 3))
@@ -514,25 +517,21 @@ class Model(nn.Module):
 
         # RawNet2-based encoder
         x = self.encoder(x)
-
         x = self.first_bn1(x)
         x = self.selu(x)
+        
         w = self.attention(x)
         
-        #------------SAP for spectral feature-------------#
+        #------------SA for spectral feature-------------#
         w1 = F.softmax(w,dim=-1)
         m = torch.sum(x * w1, dim=-1)
-        
         e_S = m.transpose(1, 2) + self.pos_S 
         
         # graph module layer
         gat_S = self.GAT_layer_S(e_S)
-        
         out_S = self.pool_S(gat_S)  # (#bs, #node, #dim)
         
-
-        
-        #------------SAP for temporal feature-------------#
+        #------------SA for temporal feature-------------#
         w2 = F.softmax(w,dim=-2)
         m1 = torch.sum(x * w2, dim=-2)
      
@@ -582,17 +581,17 @@ class Model(nn.Module):
         out_S = torch.max(out_S1, out_S2)
         master = torch.max(master1, master2)
 
+        # Readout operation
         T_max, _ = torch.max(torch.abs(out_T), dim=1)
         T_avg = torch.mean(out_T, dim=1)
 
         S_max, _ = torch.max(torch.abs(out_S), dim=1)
         S_avg = torch.mean(out_S, dim=1)
-
+        
         last_hidden = torch.cat(
             [T_max, T_avg, S_max, S_avg, master.squeeze(1)], dim=1)
-
-        last_hidden = self.drop(last_hidden)
         
+        last_hidden = self.drop(last_hidden)
         output = self.out_layer(last_hidden)
         
         return output
