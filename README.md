@@ -55,9 +55,9 @@ We also provide a pre-trained models. To use it you can run:
 
 Pre-trained SSL antispoofing models are available for LA and DF [here](https://drive.google.com/drive/folders/1c4ywztEVlYVijfwbGLl9OEa1SNtFKppB?usp=sharing)
 
-It shows EER: 0.82%, min t-DCF: 0.2066  for LA
+EER: 0.82%, min t-DCF: 0.2066  on ASVspoof 2021 LA track.
 
-EER: 2.85 % for DF
+EER: 2.85 % on ASVspoof 2021 DF track.
 
 ```
 CUDA_VISIBLE_DEVICES=0 python main_SSL_LA.py --track=LA --is_eval --eval --model_path='/path/to/Pre_trained_models/best_SSL_model_LA.pth' --eval_output='eval_pre_trained_model_CM_scores_file_SSL_LA.txt'
