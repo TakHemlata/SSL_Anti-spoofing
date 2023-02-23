@@ -5,12 +5,6 @@ import numpy as np
 from scipy import signal
 import copy
 
-
-"""
-___author__ = "Massimiliano Todisco, Hemlata Tak"
-__email__ = "{todisco,tak}@eurecom.fr"
-"""
-
 '''
    Hemlata Tak, Madhu Kamble, Jose Patino, Massimiliano Todisco, Nicholas Evans.
    RawBoost: A Raw Data Boosting and Augmentation Method applied to Automatic Speaker Verification Anti-Spoofing.
@@ -29,7 +23,6 @@ def normWav(x,always):
     elif np.amax(abs(x)) > 1:
             x = x/np.amax(abs(x))
     return x
-
 
 
 def genNotchCoeffs(nBands,minF,maxF,minBW,maxBW,minCoeff,maxCoeff,minG,maxG,fs):
